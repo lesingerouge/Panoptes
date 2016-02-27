@@ -1,0 +1,7 @@
+Buna {{user.username.value}},
+
+A fost generat un cont nou pentru accesul la Eupraxia.
+Pentru a te loga poti folosi adresa ta de email si parola: {{psw}}
+
+Pentru securitate te rugam sa iti schimbi parola la prima logare.
+

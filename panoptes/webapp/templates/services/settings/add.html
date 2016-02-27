@@ -1,0 +1,66 @@
+{% extends "/base.html" %}
+{% import "/wtf.html" as wtf %}
+
+
+{% block title %}{{pagetitle}}{% endblock %}
+
+{% block content %}
+<div class="panel panel-default">
+    <div class="panel-heading" style="padding-top: 16px;">
+        <h2 class="panel-title pull-left" style="font-size: 32px;">{{pagetitle}}</h2>
+        <span class="pull-right" style="margin-right: 15px;">
+            <a href="{{request.referrer}}" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Anuleaza</a>
+        </span>
+    </div>
+    <div class="panel-body">
+        {{ wtf.quick_form(form=form, form_type="horizontal", horizontal_columns=("md",4,4), button_map={'submit':'success'}) }}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$("#authentication").on('change', function() {
+		var authdb = '<div class="form-group tempauth"> \
+		        <label class="control-label  col-md-4" for="authdb">Db autentificare</label> \
+		        <div class=" col-md-4"> \
+		          <input class="form-control" id="authdb" name="authdb" required type="text" value=""> \
+		        </div> \
+		</div>';
+		var authuser = '<div class="form-group tempauth"> \
+		        <label class="control-label  col-md-4" for="authuser">User</label> \
+		        <div class=" col-md-4"> \
+		          <input class="form-control" id="authuser" name="authuser" required type="text" value=""> \
+		        </div> \
+		</div>';
+		var authpass = '<div class="form-group tempauth"> \
+		        <label class="control-label  col-md-4" for="authpass">Parola</label> \
+		        <div class=" col-md-4"> \
+		          <input class="form-control" id="authpass" name="authpass" required type="text" value=""> \
+		        </div> \
+		</div>';
+		var choice = $(this).find("option:selected").text();
+		var db = $("#service_type").find("option:selected").text();
+		if (choice === 'DA' && db === 'MONGO') {
+			$(this).closest(".form-group").after(authdb+authuser+authpass);
+		}
+		else if (choice === 'DA' && db === 'REDIS') {
+			$(this).closest(".form-group").after(authpass);
+		}
+		else if (choice === 'NU') {
+			$(this).closest(".form-group").nextAll(".tempauth").remove();
+		};
+	});
+	$("#service_type").on('change', function() {
+		$(this).closest(".form-group").nextAll(".tempauth").remove();
+		$("#authentication").val('NU')
+	});
+
+
+} );
+
+</script>
+{% endblock %}

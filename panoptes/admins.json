@@ -1,0 +1,6 @@
+{
+    "email" : "user@something.com",
+    "username" : "User Name",
+    "password" : "randomstring",
+    "active" : true
+}

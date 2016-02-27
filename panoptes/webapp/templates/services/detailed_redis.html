@@ -1,0 +1,30 @@
+{% extends "/base.html" %}
+
+{%- block styles %}
+{{super()}}
+<link href="/static/css/dataTables.bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="/static/css/datatables.min.css" rel="stylesheet" media="screen">
+{%- endblock styles %}
+
+{% block title %}{{pagetitle}}{% endblock %}
+
+{% block content %}
+    {% for item in results %}
+    <div class="col-md-4">
+    <div class="panel panel-{{item['status']}}">
+      <div class="panel-heading">
+        <h3 class="panel-title"><strong>{{item["server"]}}</strong></h3>
+      </div>
+      <div class="panel-body">
+        {% if item['status'] == 'success' %}
+        <p><strong>Uptime: </strong>{{item["uptime"]}}</p>
+        {% else %}
+        <p><strong>Service could not be reached</strong></p>
+        <p>Reload page to retry.</p>
+        {% endif %}
+      </div>
+    </div>
+    </div>
+    {% endfor %}
+{% endblock %}
+

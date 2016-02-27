@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}{{pagetitle}}{% endblock %}
+
+{% block content %}
+<div class="panel panel-success">
+    <div class="panel-heading" style="padding-top: 16px;">
+        <h2 class="panel-title pull-left" style="font-size: 32px;">{{pagetitle}}</h2>
+        
+    </div>
+    <div class="panel-body">
+        <div class="col-md-6">
+        <h3>Ultimii utilizatori activi:</h3>
+        <ul>
+        {% for item in last_users %}
+            <li><h4>{{item.username}}</h4>
+            Activ ultima data {{moment(item.last_seen,local=true).fromNow()}}</li>
+        {% endfor %}
+        </ul>
+        </div>
+        <div class="col-md-6">
+        <h3>Ultimele pagini modificate:</h3>
+        <ul>
+        {% for item in last_pages %}
+            <li><h4>{{item.title}}</h4>
+            Modificata ultima data {{moment(item.last_mod,local=true).fromNow()}}</li>
+        {% endfor %}
+        </ul>
+        </div>
+
+        
+    </div>
+</div>
+{% endblock %}

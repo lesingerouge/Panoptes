@@ -1,0 +1,65 @@
+{% extends "/base.html" %}
+
+{%- block styles %}
+{{super()}}
+<link href="/static/css/dataTables.bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="/static/css/datatables.min.css" rel="stylesheet" media="screen">
+{%- endblock styles %}
+
+{% block title %}{{pagetitle}}{% endblock %}
+
+{% block content %}
+    {% for item in results %}
+    {% if item['replicaset'] %}
+    <div class="col-md-6">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><strong>{{item["replicaset_name"]}}</strong></h3>
+      </div>
+      <div class="panel-body">
+       {% for i in item['members'] %}
+       <div class="col-md-6">
+            <div class="panel panel-{{i['status']}}">
+              <div class="panel-heading">
+                <h3 class="panel-title"><strong>{{i["server"]}}</strong></h3>
+              </div>
+              <div class="panel-body">
+                <p><strong>Uptime: </strong>{{i["uptime"]}}</p>
+                <p><strong>Server State: </strong>{{i["repl_status"]}}</p>
+              </div>
+             <div class="panel-footer">
+            {% for j in i['repl_members'] %}
+            {% if i['repl_members_status'][loop.index-1] == '1' %}
+            <p><strong>seening: {{i['repl_members_states'][loop.index-1]}}</strong></p>
+            {% else %}
+            <p><strong>not seening: {{i['repl_members_states'][loop.index-1]}}</strong></p>
+            {% endif %}
+            {% endfor %}
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+    </div>
+    {% else %}
+    <div class="col-md-4">
+    <div class="panel panel-{{item['status']}}">
+      <div class="panel-heading">
+        <h3 class="panel-title"><strong>{{item["server"]}}</strong></h3>
+      </div>
+      <div class="panel-body">
+        {% if item['status'] == 'success' %}
+        <p><strong>Uptime: </strong>{{item["uptime"]}}</p>
+        <p><strong>Memory: </strong>{{item["mem"]['resident']}} MB (resident)/ {{item["mem"]['virtual']}} MB (virtual)</p>
+        {% else %}
+        <p><strong>Service could not be reached</strong></p>
+        <p>Reload page to retry.</p>
+        {% endif %}
+        </div>
+    </div>
+    </div>
+    {% endif %}
+   {% endfor %}
+{% endblock %}
+

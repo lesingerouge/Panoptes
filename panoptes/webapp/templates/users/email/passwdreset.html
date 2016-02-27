@@ -1,0 +1,6 @@
+<p>Buna {{user.username.value}},</p>
+
+<p>Pentru resetarea parolei tale, te rugam sa dai click pe urmatorul link:
+
+<a href="{{url_for('users.resetpassword',email=user.email.value,token=token,_external=True)}}">reseteaza parola</a></p>
+
